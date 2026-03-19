@@ -60,6 +60,7 @@
  * exit of a function to get proper finalization. So let's disable it.
  * rgerhards, 2018-04-25
  */
+#pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wjump-misses-init"
 
 #include "liblognorm.h"
@@ -72,6 +73,7 @@
 #ifndef _AIX
 #pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
 #endif
+#pragma GCC diagnostic pop
 
 /* support for simple error checking */
 
