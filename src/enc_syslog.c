@@ -203,7 +203,7 @@ ln_fmtEventToRFC5424(struct json_object *json, es_str_t **str)
 		json_object_iter_next(&it);
 	}
 	es_addChar(str, ']');
-
+	r = 0;
 done:
 	return r;
 }
