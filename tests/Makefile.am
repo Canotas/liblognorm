@@ -76,6 +76,10 @@ TESTS_SHELLSCRIPTS = \
 	field_hexnumber_range.sh \
 	field_hexnumber_range_jsoncnf.sh \
 	field_op-quoted-string.sh \
+	field_quoted-string.sh \
+	field_word.sh \
+	field_alpha.sh \
+	field_string-to.sh \
 	rule_last_str_short.sh \
 	field_mac48.sh \
 	field_mac48_jsoncnf.sh \
