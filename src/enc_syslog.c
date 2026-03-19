@@ -196,13 +196,14 @@ ln_fmtEventToRFC5424(struct json_object *json, es_str_t **str)
 	struct json_object_iterator itEnd = json_object_iter_end(json);
 	while (!json_object_iter_equal(&it, &itEnd)) {
 		char *const name = (char*)json_object_iter_peek_name(&it);
-		if (strcmp(name, "event.tags")) {
+		if (strcmp(name, "event.tags") != 0) {
 			es_addChar(str, ' ');
 			ln_addField_Syslog(name, json_object_iter_peek_value(&it), str);
 		}
 		json_object_iter_next(&it);
 	}
 	es_addChar(str, ']');
+	r = 0;
 
 done:
 	return r;
