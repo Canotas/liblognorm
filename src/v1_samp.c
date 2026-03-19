@@ -755,10 +755,10 @@ processAnnotate(ln_ctx ctx, const char *buf, es_size_t lenBuf, es_size_t offs)
 done:	return r;
 }
 
-struct ln_v1_samp *
+int
 ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf)
 {
-	struct ln_v1_samp *samp = NULL;
+	int r = -1;
 	es_str_t *typeStr = NULL;
 	es_size_t offs;
 
@@ -774,19 +774,19 @@ ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf)
 	} else if(!es_strconstcmp(typeStr, "annotate")) {
 		if(processAnnotate(ctx, buf, lenBuf, offs) != 0) goto done;
 	} else {
-		/* TODO error reporting */
 		char *str;
 		str = es_str2cstr(typeStr, NULL);
-		ln_dbgprintf(ctx, "invalid record type detected: '%s'", str);
+		ln_errprintf(ctx, 0, "invalid record type detected: '%s'", str);
 		free(str);
 		goto done;
 	}
+	r = 0;
 
 done:
 	if(typeStr != NULL)
 		es_deleteStr(typeStr);
 
-	return samp;
+	return r;
 }
 
 

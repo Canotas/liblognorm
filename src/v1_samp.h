@@ -42,19 +42,14 @@ struct ln_v1_samp {
 };
 
 /**
- * Reads a sample stored in buffer buf and creates a new ln_v1_samp object
- * out of it.
+ * Process a sample stored in buffer buf and add it to the v1 parse tree.
  *
- * @note
- * It is the caller's responsibility to delete the newly
- * created ln_v1_samp object if it is no longer needed.
- *
- * @param[ctx] ctx current library context
- * @param[buf] cstr buffer containing the string contents of the sample
- * @param[lenBuf] length of the sample contained within buf
- * @return Newly create object or NULL if an error occured.
+ * @param[in] ctx current library context
+ * @param[in] buf cstr buffer containing the string contents of the sample
+ * @param[in] lenBuf length of the sample contained within buf
+ * @return 0 on success, non-zero on error.
  */
-struct ln_v1_samp *
+int
 ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf);
 
 
