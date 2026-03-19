@@ -67,4 +67,7 @@ EXTRA_DIST += \
 	v1_samp.h \
 	v1_ptree.h
 
-include_HEADERS = liblognorm.h samp.h lognorm.h pdag.h annot.h enc.h parser.h lognorm-features.h
+include_HEADERS = liblognorm.h lognorm-features.h
+
+noinst_HEADERS = samp.h lognorm.h pdag.h annot.h enc.h parser.h \
+                 internal.h helpers.h
