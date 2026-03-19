@@ -48,5 +48,17 @@ assert_output_json_eq '{ "test2": "ijkl\\\"mnop", "test": "abcd\"efgh\\" }'
 execute '"abcd\"efgh" "ijkl'
 assert_output_json_eq '{ "originalmsg": "\"abcd\\\"efgh\" \"ijkl", "unparsed-data": "\"ijkl" }'
 
+# SEC-4 regression: empty quoted string must be accepted without crashing
+reset_rules
+add_rule 'version=2'
+add_rule 'rule=:%test:op-quoted-string%'
+execute '""'
+assert_output_json_eq '{ "test": "" }'
+
+# SEC-4 regression: consecutive escape sequences must not over-read the
+# buffer; "a\\b" contains a real backslash followed by 'b'
+execute '"a\\\\b"'
+assert_output_json_eq '{ "test": "a\\\\b" }'
+
 cleanup_tmp_files
 
