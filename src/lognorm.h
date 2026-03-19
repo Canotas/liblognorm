@@ -77,8 +77,13 @@ struct ln_ctx_s {
 	unsigned int conf_ln_nbr;	/**< current config file line number */
 };
 
+#ifdef __GNUC__
 void ln_dbgprintf(ln_ctx ctx, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 void ln_errprintf(ln_ctx ctx, const int eno, const char *fmt, ...) __attribute__((format(printf, 3, 4)));
+#else
+void ln_dbgprintf(ln_ctx ctx, const char *fmt, ...);
+void ln_errprintf(ln_ctx ctx, const int eno, const char *fmt, ...);
+#endif
 
 #define LN_DBGPRINTF(ctx, ...) if(ctx->dbgCB != NULL) { ln_dbgprintf(ctx, __VA_ARGS__); }
 //#define LN_DBGPRINTF(ctx, ...)
