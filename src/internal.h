@@ -56,22 +56,17 @@
 #ifndef INTERNAL_H_INCLUDED
 #define	INTERNAL_H_INCLUDED
 
-/* the jump-misses-init gcc warning is overdoing when we jump to the
- * exit of a function to get proper finalization. So let's disable it.
- * rgerhards, 2018-04-25
- */
+#ifndef _AIX
+/* Suppress -Wjump-misses-init globally for this TU since the goto-based
+ * error handling pattern (CHKR/CHKN macros) intentionally jumps over
+ * variable initializations. This pragma applies to the entire TU. */
 #pragma GCC diagnostic ignored "-Wjump-misses-init"
+/* Note: -Wdeclaration-after-statement removed as it is not applicable in C99 mode */
+#endif
 
 #include "liblognorm.h"
 
 #include <libestr.h>
-
-/* we need to turn off this warning, as it also comes up in C99 mode, which
- * we use.
- */
-#ifndef _AIX
-#pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
-#endif
 
 /* support for simple error checking */
 
