@@ -35,40 +35,14 @@ struct ln_type_pdag;
  * and continously increment. They must exactly match the index
  * of the respective parser inside the parser lookup table.
  */
+/* In v2, parsers are identified by name (string lookup), not by integer ID.
+ * Only PRS_LITERAL (0), PRS_REPEAT (1), PRS_CUSTOM_TYPE (254), and
+ * PRS_INVALID (255) are still used as numeric IDs internally.
+ * The per-parser numeric IDs that existed in early v2 drafts were removed;
+ * the block below is deleted rather than kept under #if 0.
+ */
 #define PRS_LITERAL			0
 #define PRS_REPEAT			1
-#if 0
-#define PRS_DATE_RFC3164		1
-#define PRS_DATE_RFC5424		2
-#define PRS_NUMBER			3
-#define PRS_FLOAT			4
-#define PRS_HEXNUMBER			5
-#define PRS_KERNEL_TIMESTAMP		6
-#define PRS_WHITESPACE			7
-#define PRS_IPV4			8
-#define PRS_IPV6			9
-#define PRS_WORD			10
-#define PRS_ALPHA			11
-#define PRS_REST			12
-#define PRS_OP_QUOTED_STRING		13
-#define PRS_QUOTED_STRING		14
-#define PRS_DATE_ISO			15
-#define PRS_TIME_24HR			16
-#define PRS_TIME_12HR			17
-#define PRS_DURATION			18
-#define PRS_CISCO_INTERFACE_SPEC	19
-#define PRS_NAME_VALUE_LIST		20
-#define PRS_JSON			21
-#define PRS_CEE_SYSLOG			22
-#define PRS_MAC48			23
-#define PRS_CEF				24
-#define PRS_CHECKPOINT_LEA		25
-#define PRS_v2_IPTABLES			26
-#define PRS_STRING_TO			27
-#define PRS_CHAR_TO			28
-#define PRS_CHAR_SEP			29
-#define PRS_XML				30
-#endif
 
 #define PRS_CUSTOM_TYPE			254
 #define PRS_INVALID			255
