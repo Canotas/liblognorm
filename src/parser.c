@@ -3321,7 +3321,7 @@ PARSER_Parse(CheckpointLEA)
 		if( npb->str[i] == '"' ) {
 			iValue = i+1;
 			i++;
-			while( i < npb->strLen && ( npb->str[i] != '"' || npb->str[i-1] == '\\' ) ) {
+			while( i < npb->strLen && ( npb->str[i] != '"' || (i > 0 && npb->str[i-1] == '\\') ) ) {
 				++i;
 			}
 			// Do not take the " in value
