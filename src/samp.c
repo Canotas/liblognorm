@@ -946,6 +946,9 @@ ln_sampChkRunawayRule(ln_ctx ctx, FILE *const __restrict__ repo, const char **in
 	int cont = 1;
 	int read;
 
+	if(repo == NULL)
+		return 0; /* nothing to check in string-mode */
+
 	fgetpos(repo, &fpos);
 	while(cont) {
 		fpos_t inner_fpos;
