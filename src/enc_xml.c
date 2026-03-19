@@ -1,5 +1,5 @@
 /**
- * @file enc-xml.c
+ * @file enc_xml.c
  * Encoder for XML format.
  *
  * This file contains code from all related objects that is required in
@@ -79,6 +79,7 @@ ln_addValue_XML(const char *value, es_str_t **str)
 		case '\0':
 			es_addBuf(str, "&#00;", 5);
 			break;
+/* TODO: implement XML escaping for this character type - currently outputs raw chars */
 #if 0
 		case '\n':
 			es_addBuf(str, "&#10;", 5);
@@ -99,6 +100,7 @@ ln_addValue_XML(const char *value, es_str_t **str)
 		case '&':
 			es_addBuf(str, "&amp;", 5);
 			break;
+/* TODO: implement XML escaping for this character type - currently outputs raw chars */
 #if 0
 		case ',':
 			es_addBuf(str, "\\,", 2);
@@ -109,6 +111,7 @@ ln_addValue_XML(const char *value, es_str_t **str)
 #endif
 		default:
 			es_addChar(str, c);
+/* TODO: implement XML escaping for this character type - currently outputs raw chars */
 #if 0
 			/* TODO : proper Unicode encoding (see header comment) */
 			for(j = 0 ; j < 4 ; ++j) {
