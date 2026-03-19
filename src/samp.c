@@ -569,7 +569,7 @@ processRule(ln_ctx ctx, const char *buf, es_size_t lenBuf, es_size_t offs)
 		CHKN(str = es_strdup(ctx->rulePrefix));
 	}
 	CHKR(es_addBuf(&str, (char*)buf + offs, lenBuf - offs));
-	addSampToTree(ctx, str, ctx->pdag, tagBucket);
+	CHKR(addSampToTree(ctx, str, ctx->pdag, tagBucket));
 	es_deleteStr(str);
 	r = 0;
 done:	return r;
@@ -646,7 +646,7 @@ processType(ln_ctx ctx,
 	CHKR(es_addBuf(&str, (char*)buf + offs, lenBuf - offs));
 	struct ln_type_pdag *const td = ln_pdagFindType(ctx, typename, 1);
 	CHKN(td);
-	addSampToTree(ctx, str, td->pdag, NULL);
+	CHKR(addSampToTree(ctx, str, td->pdag, NULL));
 	es_deleteStr(str);
 	r = 0;
 done:	return r;
