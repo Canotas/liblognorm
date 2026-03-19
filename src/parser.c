@@ -3093,8 +3093,8 @@ cefParseExtensions(npb_t *const npb,
 			/* copy value but escape it */
 			size_t iDst = 0;
 			for(size_t iSrc = 0 ; iSrc < lenValue ; ++iSrc) {
-				if(npb->str[iValue+iSrc] == '\\') {
-					++iSrc; /* we know the next char must exist! */
+				if(npb->str[iValue+iSrc] == '\\' && iSrc + 1 < lenValue) {
+					++iSrc; /* skip escape char, next char is guaranteed to exist */
 					switch(npb->str[iValue+iSrc]) {
 					case '=':	value[iDst] = '=';
 							break;
@@ -3150,7 +3150,7 @@ cefGetHdrField(npb_t *const npb,
 	while(i < npb->strLen && npb->str[i] != '|') {
 		if(npb->str[i] == '\\') {
 			++i; /* skip esc char */
-			if(npb->str[i] != '\\' && npb->str[i] != '|')
+			if(i >= npb->strLen || (npb->str[i] != '\\' && npb->str[i] != '|'))
 				FAIL(LN_WRONGPARSER);
 		}
 		++i; /* scan to next delimiter */
