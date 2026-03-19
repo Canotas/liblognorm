@@ -875,7 +875,11 @@ ln_pdagAddParserInstance(ln_ctx ctx,
 	}
 	parser->node = *nextnode;
 	newtab = realloc(pdag->parsers, (pdag->nparsers+1) * sizeof(ln_parser_t));
-	CHKN(newtab);
+	if(newtab == NULL) {
+		ln_pdagDelete(parser->node);
+		r = LN_NOMEM;
+		goto done;
+	}
 	pdag->parsers = newtab;
 	memcpy(pdag->parsers+pdag->nparsers, parser, sizeof(ln_parser_t));
 	pdag->nparsers++;
