@@ -1,5 +1,5 @@
 /**
- * @file liblognorm.h
+ * @file v1_liblognorm.h
  * @brief The public liblognorm API.
  *
  * <b>Functions other than those defined here MUST not be called by
@@ -134,11 +134,6 @@ int ln_v1_loadSamples(ln_ctx ctx, const char *file);
  */
 int ln_v1_normalize(ln_ctx ctx, const char *str, size_t strLen, struct json_object **json_p);
 
-
-/**
- * create a single sample.
- */
-struct ln_v1_samp* ln_v1_sampCreate(ln_ctx __attribute__((unused)) ctx);
 
 /* here we add some stuff from the compatibility layer. A separate include
  * would be cleaner, but would potentially require changes all over the

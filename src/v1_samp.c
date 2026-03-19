@@ -41,29 +41,6 @@
 
 
 /**
- * Construct a sample object.
- */
-struct ln_v1_samp*
-ln_v1_sampCreate(ln_ctx __attribute__((unused)) ctx)
-{
-	struct ln_v1_samp* samp;
-
-	if((samp = calloc(1, sizeof(struct ln_v1_samp))) == NULL)
-		goto done;
-
-	/* place specific init code here (none at this time) */
-
-done:	return samp;
-}
-
-void
-ln_v1_sampFree(ln_ctx __attribute__((unused)) ctx, struct ln_v1_samp *samp)
-{
-	free(samp);
-}
-
-
-/**
  * Extract a field description from a sample.
  * The field description is added to the tail of the current
  * subtree's field list. The parse buffer must be position on the
@@ -755,10 +732,10 @@ processAnnotate(ln_ctx ctx, const char *buf, es_size_t lenBuf, es_size_t offs)
 done:	return r;
 }
 
-struct ln_v1_samp *
+int
 ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf)
 {
-	struct ln_v1_samp *samp = NULL;
+	int r = -1;
 	es_str_t *typeStr = NULL;
 	es_size_t offs;
 
@@ -781,19 +758,20 @@ ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf)
 		free(str);
 		goto done;
 	}
+	r = 0;
 
 done:
 	if(typeStr != NULL)
 		es_deleteStr(typeStr);
 
-	return samp;
+	return r;
 }
 
 
-struct ln_v1_samp *
+int
 ln_v1_sampRead(ln_ctx ctx, FILE *const __restrict__ repo, int *const __restrict__ isEof)
 {
-	struct ln_v1_samp *samp = NULL;
+	int r = 0;
 	char buf[10*1024]; /**< max size of rule - TODO: make configurable */
 
 	size_t i = 0;
@@ -827,6 +805,7 @@ ln_v1_sampRead(ln_ctx ctx, FILE *const __restrict__ repo, int *const __restrict_
 			buf[i++] = c;
 			if(i >= sizeof(buf)) {
 				ln_errprintf(ctx, 0, "line is too long");
+				r = -1;
 				goto done;
 			}
 		}
@@ -834,11 +813,13 @@ ln_v1_sampRead(ln_ctx ctx, FILE *const __restrict__ repo, int *const __restrict_
 	buf[i] = '\0';
 
 	ln_dbgprintf(ctx, "read rulebase line[~%d]: '%s'", ctx->conf_ln_nbr, buf);
-	ln_v1_processSamp(ctx, buf, i);
+	r = ln_v1_processSamp(ctx, buf, i);
 
-ln_dbgprintf(ctx, "---------------------------------------");
-ln_displayPTree(ctx->ptree, 0);
-ln_dbgprintf(ctx, "=======================================");
+	if(ctx->dbgCB != NULL) {
+		ln_dbgprintf(ctx, "---------------------------------------");
+		ln_displayPTree(ctx->ptree, 0);
+		ln_dbgprintf(ctx, "=======================================");
+	}
 done:
-	return samp;
+	return r;
 }
