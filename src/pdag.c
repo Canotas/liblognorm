@@ -1087,7 +1087,6 @@ static inline void dotAddPtr(es_str_t **str, void *p)
 	i = snprintf(buf, sizeof(buf), "l%p", p);
 	es_addBuf(str, buf, i);
 }
-struct data_Literal { const char *lit; }; // TODO remove when this hack is no longe needed
 /**
  * recursive handler for DOT graph generator.
  */
@@ -1123,7 +1122,7 @@ ln_genDotPDAGGraphRec(struct ln_pdag *dag, es_str_t **str)
 		es_addBufConstcstr(str, ":");
 		//es_addStr(str, node->name);
 		if(prs->prsid == PRS_LITERAL) {
-			for(const char *p = ((struct data_Literal*)prs->parser_data)->lit ; *p ; ++p) {
+			for(const char *p = ln_parserGetLiteralStr(prs) ; *p ; ++p) {
 				// TODO: handle! if(*p == '\\')
 					//es_addChar(str, '\\');
 				if(*p != '\\' && *p != '"')
@@ -1171,7 +1170,7 @@ ln_genStatsDotPDAGGraphRec(struct ln_pdag *dag, FILE *const __restrict__ fp)
 			continue;
 		fprintf(fp, "l%p -> l%p [label=\"", dag, prs->node);
 		if(prs->prsid == PRS_LITERAL) {
-			for(const char *p = ((struct data_Literal*)prs->parser_data)->lit ; *p ; ++p) {
+			for(const char *p = ln_parserGetLiteralStr(prs) ; *p ; ++p) {
 				if(*p != '\\' && *p != '"')
 					fputc(*p, fp);
 			}
