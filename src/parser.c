@@ -3309,7 +3309,7 @@ PARSER_Parse(CheckpointLEA)
 			FAIL(LN_WRONGPARSER);
 		}
 		/* Sometimes there is multiple colons */
-		while( i < npb->strLen && npb->str[i+1] == ':' ) {
+		while( i + 1 < npb->strLen && npb->str[i+1] == ':' ) {
 			i++;
 		}
 		lenName = i - iName;
