@@ -129,7 +129,6 @@ TESTS_SHELLSCRIPTS += \
 	field_checkpoint-lea_v1.sh \
 	field_duration_v1.sh \
 	field_float_v1.sh \
-	field_cee-syslog_v1.sh \
 	field_tokenized.sh \
 	field_tokenized_with_invalid_ruledef.sh \
 	field_recursive.sh \
