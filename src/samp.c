@@ -375,7 +375,7 @@ addSampToTree(ln_ctx ctx,
 	/* we are at the end of rule processing, so this node is a terminal */
 	dag->flags.isTerminal = 1;
 	dag->tags = tagBucket;
-	dag->rb_file = strdup(ctx->conf_file);
+	CHKN(dag->rb_file = strdup(ctx->conf_file));
 	dag->rb_lineno = ctx->conf_ln_nbr;
 
 done:
