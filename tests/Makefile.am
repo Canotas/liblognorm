@@ -86,6 +86,7 @@ TESTS_SHELLSCRIPTS = \
 	field_whitespace.sh \
 	rule_last_str_long.sh \
 	field_whitespace_jsoncnf.sh \
+	field_xml.sh \
 	field_rest.sh \
 	field_rest_jsoncnf.sh \
 	field_json.sh \
