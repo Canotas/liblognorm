@@ -79,7 +79,6 @@ ln_addValue_XML(const char *value, es_str_t **str)
 		case '\0':
 			es_addBuf(str, "&#00;", 5);
 			break;
-#if 0
 		case '\n':
 			es_addBuf(str, "&#10;", 5);
 			break;
@@ -87,12 +86,11 @@ ln_addValue_XML(const char *value, es_str_t **str)
 			es_addBuf(str, "&#13;", 5);
 			break;
 		case '\t':
-			es_addBuf(str, "&x08;", 5);
+			es_addBuf(str, "&#9;", 4);
 			break;
 		case '\"':
 			es_addBuf(str, "&quot;", 6);
 			break;
-#endif
 		case '<':
 			es_addBuf(str, "&lt;", 4);
 			break;
