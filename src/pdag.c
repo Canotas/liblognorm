@@ -30,6 +30,10 @@
 void ln_displayPDAGComponentAlternative(struct ln_pdag *dag, int level);
 void ln_displayPDAGComponent(struct ln_pdag *dag, int level);
 
+/* NOTE: These global counters are NOT protected by a mutex.
+ * ln_normalize() must not be called concurrently with the same
+ * ln_ctx instance. Use separate ln_ctx per thread, or serialize
+ * calls with an external mutex. See liblognorm.h for details. */
 #ifdef	ADVANCED_STATS
 uint64_t advstats_parsers_called = 0;
 uint64_t advstats_parsers_success = 0;
