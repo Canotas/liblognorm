@@ -1700,7 +1700,7 @@ PARSER_Parse(OpQuotedString)
 			CHKN(cstr = malloc(end - i + 1));
 			int cpt_dst = 0;
 			while(i < end) {
-				if( (npb->str[i] == '\\') && ((npb->str[i+1] == '\\') || (npb->str[i+1] == '"')) ) {
+				if( (i + 1 < end) && (npb->str[i] == '\\') && ((npb->str[i+1] == '\\') || (npb->str[i+1] == '"')) ) {
 					i++;
 				}
 				*(cstr+(cpt_dst++)) = *(npb->str+(i++));
