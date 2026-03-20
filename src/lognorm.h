@@ -27,6 +27,7 @@
 #ifndef LIBLOGNORM_LOGNORM_HINCLUDED
 #define	LIBLOGNORM_LOGNORM_HINCLUDED
 #include <stdlib.h>	/* we need size_t */
+#include <pthread.h>
 #include "liblognorm.h"
 #include "pdag.h"
 #include "annot.h"
@@ -45,6 +46,7 @@ struct ln_type_pdag {
 
 struct ln_ctx_s {
 	unsigned objID;	/**< a magic number to prevent some memory addressing errors */
+	pthread_mutex_t type_pdags_mutex; /**< protects type_pdags array during realloc */
 	void (*dbgCB)(void *cookie, const char *msg, size_t lenMsg);
 		/**< user-provided debug output callback */
 	void *dbgCookie; /**< cookie to be passed to debug callback */

@@ -154,17 +154,23 @@ ln_pdagFindType(ln_ctx ctx, const char *const __restrict__ name, const int bAdd)
 		goto done;
 	}
 
-	/* type does not yet exist -- create entry */
+	/* type does not yet exist -- create entry.
+	 * Lock the mutex while we realloc type_pdags to prevent concurrent
+	 * ln_normalize calls from accessing a dangling pointer.
+	 */
 	LN_DBGPRINTF(ctx, "custom type '%s' does not yet exist, adding...", name);
+	pthread_mutex_lock(&ctx->type_pdags_mutex);
 	struct ln_type_pdag *newarr;
 	newarr = realloc(ctx->type_pdags, sizeof(struct ln_type_pdag) * (ctx->nTypes+1));
 	if(newarr == NULL) {
 		LN_DBGPRINTF(ctx, "ln_pdagFindTypeAG: alloc newarr failed");
+		pthread_mutex_unlock(&ctx->type_pdags_mutex);
 		goto done;
 	}
 	ctx->type_pdags = newarr;
 	td = ctx->type_pdags + ctx->nTypes;
 	++ctx->nTypes;
+	pthread_mutex_unlock(&ctx->type_pdags_mutex);
 	td->name = strdup(name);
 	td->pdag = ln_newPDAG(ctx);
 done:
