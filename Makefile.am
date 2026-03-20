@@ -4,7 +4,8 @@ if ENABLE_DOCS
 endif
 
 EXTRA_DIST = rulebases \
-	COPYING.ASL20
+	COPYING.ASL20 \
+	lognorm.pc.in
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = lognorm.pc
 

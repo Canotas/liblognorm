@@ -50,6 +50,7 @@ liblognorm_la_LIBADD = $(rt_libs) $(JSON_C_LIBS) $(LIBESTR_LIBS) $(PCRE_LIBS) -l
 liblognorm_la_LDFLAGS = -version-info 6:0:1
 
 EXTRA_DIST = \
+	lognorm-features.h.in \
 	internal.h \
 	liblognorm.h \
 	lognorm.h \
