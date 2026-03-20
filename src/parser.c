@@ -3754,7 +3754,7 @@ PARSER_Parse(String)
 
 	if((i - *offs < 1) || (data->matching == ST_MATCH_EXACT)) {
 		const size_t trmChkIdx = (bHaveQuotes) ? i+1 : i;
-		if(npb->str[trmChkIdx] != ' ' && trmChkIdx != npb->strLen)
+		if(trmChkIdx != npb->strLen && npb->str[trmChkIdx] != ' ')
 			goto done;
 	}
 
