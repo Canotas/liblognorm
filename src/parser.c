@@ -2612,7 +2612,7 @@ parseNameValue(npb_t *const npb,
 	size_t lenName = i - iName;
 	/* Sub-routine to trim whitespaces if option is enabled */
 	if( ignore_ws )
-		while( isspace(npb->str[(iName+lenName)-1]) )
+		while( lenName > 0 && isspace(npb->str[(iName+lenName)-1]) )
 			lenName--;
 
 	++i; /* skip assignator */
