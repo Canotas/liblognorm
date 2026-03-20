@@ -77,10 +77,9 @@ ln_v1_loadSamples(ln_ctx ctx, const char *file)
 	char *fn_to_free = NULL;
 	CHECK_CTX;
 
+	if(file == NULL) ERR_ABORT;
 	ctx->conf_file = fn_to_free = strdup(file);
 	ctx->conf_ln_nbr = 0;
-
-	if(file == NULL) ERR_ABORT;
 	if((repo = fopen(file, "r")) == NULL) {
 		ln_errprintf(ctx, errno, "cannot open file %s", file);
 		ERR_ABORT;
