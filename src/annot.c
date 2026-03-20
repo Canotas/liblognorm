@@ -105,8 +105,24 @@ ln_combineAnnot(ln_annot *annot, ln_annot *add)
 	}
 	es_deleteStr(add->tag);
 	free(add);
-	
-done:	return r;
+	add = NULL;
+done:
+	if(r != 0) {
+		/* free current op and any remaining ops not yet transferred */
+		for(; op != NULL; ) {
+			ln_annot_op *n = op->next;
+			es_deleteStr(op->name);
+			if(op->value != NULL)
+				es_deleteStr(op->value);
+			free(op);
+			op = n;
+		}
+		if(add != NULL) {
+			es_deleteStr(add->tag);
+			free(add);
+		}
+	}
+	return r;
 }
 
 
