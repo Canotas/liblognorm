@@ -1706,11 +1706,16 @@ static struct suffixed_parser_data_s* _suffixed_parser_data_constructor(ln_field
 	pcons_unescape_arg(args, 1);
 	CHKN(suffixes_str = pcons_arg_copy(args, 1, NULL));
 
+	/* Count tokens: strtok_r modifies suffixes_str in place; a fresh copy
+	 * is obtained for pData->suffixes_str so offset calculations are correct.
+	 */
+	tok_saveptr = NULL;
 	tok_input = suffixes_str;
 	while (strtok_r(tok_input, tokenizer, &tok_saveptr) != NULL) {
 		tok_input = NULL;
 		pData->nsuffix++;
 	}
+	free(suffixes_str); suffixes_str = NULL;
 
 	if (pData->nsuffix == 0) {
 		FAIL(LN_INVLDFDESCR);
@@ -1719,6 +1724,7 @@ static struct suffixed_parser_data_s* _suffixed_parser_data_constructor(ln_field
 	CHKN(pData->suffix_lengths = calloc(pData->nsuffix, sizeof(int)));
 	CHKN(pData->suffixes_str = pcons_arg_copy(args, 1, NULL));
 
+	tok_saveptr = NULL;
 	tok_input = pData->suffixes_str;
 	while ((tok = strtok_r(tok_input, tokenizer, &tok_saveptr)) != NULL) {
 		tok_input = NULL;
