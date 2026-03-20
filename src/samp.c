@@ -42,11 +42,6 @@
 #include "v1_liblognorm.h"
 #include "v1_ptree.h"
 
-void
-ln_sampFree(ln_ctx __attribute__((unused)) ctx, struct ln_samp *samp)
-{
-	free(samp);
-}
 
 static int
 ln_parseLegacyFieldDescr(ln_ctx ctx,

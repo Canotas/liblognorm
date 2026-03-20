@@ -34,14 +34,7 @@
 #include <libestr.h>
 
 
-/**
- * A single log sample.
- */
-struct ln_samp {
-	es_str_t *msg;
-};
 
-void ln_sampFree(ln_ctx ctx, struct ln_samp *samp);
 int ln_sampLoad(ln_ctx ctx, const char *file);
 int ln_sampLoadFromString(ln_ctx ctx, const char *string);
 
