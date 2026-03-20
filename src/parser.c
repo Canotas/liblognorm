@@ -938,6 +938,8 @@ PARSER_Parse(Float)
 		i++;
 	}
 
+	const size_t numStart = i; /* position where digits must begin */
+
 	for (; i < npb->strLen; i++) {
 		if (c[i] == '.') {
 			if (seen_point != 0)
@@ -954,7 +956,7 @@ PARSER_Parse(Float)
 			break;
 		}
 	}
-	if (i == *offs)
+	if (i == numStart) /* no digits consumed (lone '-' or empty) */
 		goto done;
 
 	if(isNeg)
