@@ -38,8 +38,10 @@ m4_ifdef([AX_IS_RELEASE], [
 # Checks for libraries.
 save_LIBS=$LIBS
 LIBS=
-AC_SEARCH_LIBS(clock_getm4_defn([AC_AUTOCONF_VERSION]), [2.68]time, rt)
+AC_SEARCH_LIBS([clock_gettime], [rt])
+rt_libs=$LIBS
 LIBS=$save_LIBS
+AC_SUBST(rt_libs)
 
 # Checks for header files.
 AC_HEADER_STDC
