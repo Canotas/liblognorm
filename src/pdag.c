@@ -1689,10 +1689,6 @@ ln_normalize(ln_ctx ctx, const char *str, const size_t strLen, struct json_objec
 		addUnparsedField(str, strLen, npb.parsedTo, *json_p);
 	}
 
-	if(ctx->opts & LN_CTXOPT_ADD_RULE) {
-		es_deleteStr(npb.rule);
-	}
-
 #ifdef	ADVANCED_STATS
 	if(r != 0)
 		es_addBuf(&npb.astats.exec_path, "[FAILED]", 8);
@@ -1723,5 +1719,8 @@ ln_normalize(ln_ctx ctx, const char *str, const size_t strLen, struct json_objec
 
 	es_deleteStr(npb.astats.exec_path);
 #endif
-done:	return r;
+done:
+	if(ctx->opts & LN_CTXOPT_ADD_RULE)
+		es_deleteStr(npb.rule);
+	return r;
 }
