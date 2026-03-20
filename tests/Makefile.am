@@ -143,7 +143,8 @@ TESTS_SHELLSCRIPTS += \
 	field_cisco-interface-spec.sh \
 	field_cisco-interface-spec-at-EOL.sh \
 	field_float_with_invalid_ruledef.sh \
-	very_long_logline.sh
+	very_long_logline.sh \
+	lognormalizer_options.sh
 
 
 #re-add to TESTS if needed: user_test
