@@ -810,7 +810,8 @@ ln_v1_sampRead(ln_ctx ctx, FILE *const __restrict__ repo, int *const __restrict_
 			if(c == '%')
 				inParser = (inParser) ? 0 : 1;
 			buf[i++] = c;
-			if(i >= sizeof(buf)) {
+			if(i >= sizeof(buf) - 1) {
+				buf[sizeof(buf) - 1] = '\0';
 				ln_errprintf(ctx, 0, "line is too long");
 				goto done;
 			}
