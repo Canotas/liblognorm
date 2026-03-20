@@ -1248,31 +1248,40 @@ addRuleMetadata(npb_t *const __restrict__ npb,
 	if(ctx->opts & LN_CTXOPT_ADD_RULE) { /* matching rule mockup */
 		if(meta_rule == NULL)
 			meta_rule = json_object_new_object();
-		char *cstr = es_str2cstr(npb->rule, NULL);
-		if(cstr != NULL) {
-			strrev(cstr);
-			struct json_object *jval = json_object_new_string(cstr);
-			free(cstr);
-			if(jval != NULL)
-				json_object_object_add(meta_rule, RULE_MOCKUP_KEY, jval);
+		if(meta_rule != NULL) {
+			char *cstr = es_str2cstr(npb->rule, NULL);
+			if(cstr != NULL) {
+				strrev(cstr);
+				struct json_object *jval = json_object_new_string(cstr);
+				free(cstr);
+				if(jval != NULL)
+					json_object_object_add(meta_rule, RULE_MOCKUP_KEY, jval);
+			}
 		}
 	}
 
 	if(ctx->opts & LN_CTXOPT_ADD_RULE_LOCATION) {
 		if(meta_rule == NULL)
 			meta_rule = json_object_new_object();
-		struct json_object *const location = json_object_new_object();
-		value = json_object_new_string(endNode->rb_file);
-		json_object_object_add(location, "file", value);
-		value = json_object_new_int((int)endNode->rb_lineno);
-		json_object_object_add(location, "line", value);
-		json_object_object_add(meta_rule, RULE_LOCATION_KEY, location);
+		if(meta_rule != NULL) {
+			struct json_object *const location = json_object_new_object();
+			if(location != NULL) {
+				value = json_object_new_string(endNode->rb_file);
+				json_object_object_add(location, "file", value);
+				value = json_object_new_int((int)endNode->rb_lineno);
+				json_object_object_add(location, "line", value);
+				json_object_object_add(meta_rule, RULE_LOCATION_KEY, location);
+			}
+		}
 	}
 
 	if(meta_rule != NULL) {
 		if(meta == NULL)
 			meta = json_object_new_object();
-		json_object_object_add(meta, META_RULE_KEY, meta_rule);
+		if(meta != NULL)
+			json_object_object_add(meta, META_RULE_KEY, meta_rule);
+		else
+			json_object_put(meta_rule);
 	}
 
 #ifdef	ADVANCED_STATS
