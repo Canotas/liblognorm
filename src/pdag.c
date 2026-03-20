@@ -271,7 +271,15 @@ ln_newParser(ln_ctx ctx,
 		node->custTypeIdx = custType - ctx->type_pdags;
 	} else {
 		if(parser_lookup_table[prsid].construct != NULL) {
-			parser_lookup_table[prsid].construct(ctx, prscnf, &node->parser_data);
+			int cr = parser_lookup_table[prsid].construct(ctx, prscnf, &node->parser_data);
+			if(cr != 0) {
+				LN_DBGPRINTF(ctx, "lnNewParser: construct() failed for parser %d", prsid);
+				free((void*)node->name);
+				free((void*)node->conf);
+				free(node);
+				node = NULL;
+				goto done;
+			}
 		}
 	}
 done:
