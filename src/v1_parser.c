@@ -1386,7 +1386,7 @@ void* regex_parser_data_constructor(ln_fieldList_t *node, ln_ctx ctx) {
 
 	CHKN(name = es_str2cstr(node->name, NULL));
 
-	if (! ctx->opts & LN_CTXOPT_ALLOW_REGEX) FAIL(LN_BADCONFIG);
+	if (!(ctx->opts & LN_CTXOPT_ALLOW_REGEX)) FAIL(LN_BADCONFIG);
 	CHKN(pData = malloc(sizeof(struct regex_parser_data_s)));
 	pData->re = NULL;
 
@@ -1408,7 +1408,7 @@ done:
 	if (r != 0) {
 		if (name == NULL)
 			ln_dbgprintf(ctx, "couldn't allocate memory regex-field name");
-		else if (! ctx->opts & LN_CTXOPT_ALLOW_REGEX)
+		else if (!(ctx->opts & LN_CTXOPT_ALLOW_REGEX))
 			ln_dbgprintf(ctx, "regex support is not enabled for: '%s' "
 				"(please check lognorm context initialization)", name);
 		else if (pData == NULL)
