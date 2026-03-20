@@ -1658,7 +1658,7 @@ ln_normalize(ln_ctx ctx, const char *str, const size_t strLen, struct json_objec
 	r = ln_normalizeRec(&npb, ctx->pdag, 0, 0, *json_p, &endNode);
 
 	if(ctx->debug) {
-		if(r == 0) {
+		if(r == 0 && endNode != NULL) {
 			LN_DBGPRINTF(ctx, "final result for normalizer: parsedTo %zu, endNode %p, "
 				     "isTerminal %d, tagbucket %p",
 				     npb.parsedTo, endNode, endNode->flags.isTerminal, endNode->tags);
@@ -1668,7 +1668,7 @@ ln_normalize(ln_ctx ctx, const char *str, const size_t strLen, struct json_objec
 		}
 	}
 	LN_DBGPRINTF(ctx, "DONE, final return is %d", r);
-	if(r == 0 && endNode->flags.isTerminal) {
+	if(r == 0 && endNode != NULL && endNode->flags.isTerminal) {
 		/* success, finalize event */
 		if(endNode->tags != NULL) {
 			/* add tags to an event */
