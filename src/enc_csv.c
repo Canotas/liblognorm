@@ -186,8 +186,10 @@ ln_fmtEventToCSV(struct json_object *json, es_str_t **str, es_str_t *extraData)
 	
 	if((*str = es_newStr(256)) == NULL)
 		goto done;
-	if(extraData == NULL)
+	if(extraData == NULL) {
+		r = LN_BADCONFIG;
 		goto done;
+	}
 
 	CHKN(namelist = es_str2cstr(extraData, NULL));
 
