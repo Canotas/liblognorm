@@ -60,9 +60,14 @@ ln_dbgprintf(ln_ctx ctx, const char *fmt, ...)
 	char buf[8*1024];
 	size_t lenBuf;
 
-	if(ctx->dbgCB == NULL)
+	/* Snapshot callback and cookie together to reduce TOCTOU window
+	 * if another thread calls ln_setErrMsgCB concurrently.
+	 */
+	void (*cb)(void *, const char *, size_t) = ctx->dbgCB;
+	void *cookie = ctx->dbgCookie;
+	if(cb == NULL)
 		goto done;
-	
+
 	va_start(ap, fmt);
 	lenBuf = vsnprintf(buf, sizeof(buf), fmt, ap);
 	va_end(ap);
@@ -76,7 +81,7 @@ ln_dbgprintf(ln_ctx ctx, const char *fmt, ...)
 		lenBuf = sizeof(buf) - 1;
 	}
 
-	ctx->dbgCB(ctx->dbgCookie, buf, lenBuf);
+	cb(cookie, buf, lenBuf);
 done:	return;
 }
 
@@ -98,7 +103,10 @@ ln_errprintf(const ln_ctx ctx, const int eno, const char *fmt, ...)
 	size_t lenBuf;
 	char *msg;
 
-	if(ctx->errmsgCB == NULL)
+	/* Snapshot callback and cookie together to reduce TOCTOU window. */
+	void (*cb)(void *, const char *, size_t) = ctx->errmsgCB;
+	void *cookie = ctx->errmsgCookie;
+	if(cb == NULL)
 		goto done;
 	
 	va_start(ap, fmt);
@@ -131,7 +139,7 @@ ln_errprintf(const ln_ctx ctx, const int eno, const char *fmt, ...)
 		free((void*) m);
 	}
 
-	ctx->errmsgCB(ctx->dbgCookie, msg, lenBuf);
+	cb(cookie, msg, lenBuf);
 	ln_dbgprintf(ctx, "%s", msg);
 done:	return;
 }
