@@ -35,7 +35,7 @@
 #define MAX_FIELDNAME_LEN 1024
 #define MAX_TYPENAME_LEN  1024
 
-#define LN_ObjID_None 0xFEFE0001
+#define LN_ObjID_None 0xFEFE0000 /* must differ from LN_ObjID_CTX to enable double-free guard */
 #define LN_ObjID_CTX 0xFEFE0001
 
 struct ln_type_pdag {
