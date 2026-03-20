@@ -829,6 +829,8 @@ done:	return r;
  * @param[in] offs offset where annotation starts
  * @returns 0 on success, something else otherwise
  */
+#define LN_MAX_INCLUDE_DEPTH 16
+
 static int
 processInclude(ln_ctx ctx, const char *buf, const size_t offs)
 {
@@ -837,6 +839,13 @@ processInclude(ln_ctx ctx, const char *buf, const size_t offs)
 	char *const fname = strdup(buf+offs);
 	size_t lenfname = strlen(fname);
 	const unsigned conf_ln_nbr_save = ctx->conf_ln_nbr;
+
+	if(ctx->include_level >= LN_MAX_INCLUDE_DEPTH) {
+		ln_errprintf(ctx, 0, "maximum include depth (%d) exceeded, "
+			"check for circular includes", LN_MAX_INCLUDE_DEPTH);
+		r = LN_BADCONFIG;
+		goto done;
+	}
 
 	/* trim string - not optimized but also no need to */
 	for(size_t i = lenfname - 1 ; i > 0 ; --i) {
