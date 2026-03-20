@@ -118,7 +118,11 @@ AC_ARG_ENABLE(advanced-stats,
 )
 if test "$enable_advstats" = "yes"; then
         AC_DEFINE(ADVANCED_STATS, 1, [Defined if advanced statistics are enabled.])
+	ADVANCED_STATS=1
+else
+	ADVANCED_STATS=0
 fi
+AC_SUBST(ADVANCED_STATS)
 
 # docs (html) build settings
 AC_ARG_ENABLE(docs,
