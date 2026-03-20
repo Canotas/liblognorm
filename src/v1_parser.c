@@ -3115,7 +3115,7 @@ PARSER(CEF)
 	 CHKR(cefParseExtensions(str, strLen, &i, NULL));
 
 	/* success, persist */
-	*parsed = *offs - i;
+	*parsed = i - *offs;
 	r = 0; /* success */
 
 	if(value != NULL) {
@@ -3217,7 +3217,7 @@ PARSER(CheckpointLEA)
 	}
 
 	/* success, persist */
-	*parsed = *offs - i;
+	*parsed = i - *offs;
 	r = 0; /* success */
 
 done:
