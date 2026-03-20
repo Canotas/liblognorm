@@ -3,6 +3,7 @@
 
 AC_PREREQ(2.61)
 AC_INIT([liblognorm], [2.0.7.master], [rgerhards@adiscon.com])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_CONFIG_SRCDIR([src/lognorm.c])
@@ -183,7 +184,6 @@ AC_CONFIG_FILES([Makefile \
 		tests/Makefile \
 		tests/options.sh])
 AC_OUTPUT
-AC_CONFIG_MACRO_DIR([m4])
 
 
 echo "*****************************************************"
