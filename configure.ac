@@ -153,7 +153,7 @@ AC_ARG_ENABLE(valgrind,
         [AS_HELP_STRING([--enable-valgrind],[valgrind enabled @<:@default=no@:>@])],
         [case "${enableval}" in
          yes) enable_valgrind="yes" ;;
-          no) enable_valgrind=="no" ;;
+          no) enable_valgrind="no" ;;
            *) AC_MSG_ERROR(bad value ${enableval} for --enable-valgrind) ;;
          esac],
         [enable_valgrind=no]
