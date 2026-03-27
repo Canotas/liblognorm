@@ -1219,6 +1219,7 @@ done:
 static char *
 strrev(char *const __restrict__ str)
 {
+	if(str == NULL || str[0] == '\0') return str;
 	char ch;
 	size_t i = strlen(str)-1,j=0;
 	while(i>j)
