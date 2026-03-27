@@ -2501,7 +2501,12 @@ PARSER_Parse(XML)
 done:
         if(doc != NULL)
             xmlFreeDoc(doc);
-        xmlCleanupParser();
+        /* NOTE: xmlCleanupParser() is a process-global call that must NOT
+         * be called per-parse because it corrupts shared libxml2 state for
+         * all other callers in the same process.  The application is
+         * responsible for calling xmlCleanupParser() once at program exit
+         * if desired.  See libxml2 documentation for details.
+         */
         return r;
 }
 
