@@ -1,5 +1,5 @@
 /**
- * @file liblognorm.h
+ * @file v1_liblognorm.h
  * @brief The public liblognorm API.
  *
  * <b>Functions other than those defined here MUST not be called by

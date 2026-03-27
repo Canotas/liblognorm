@@ -940,6 +940,9 @@ ln_sampSkipCommentLine(ln_ctx ctx, FILE * const __restrict__ repo, const char **
 int
 ln_sampChkRunawayRule(ln_ctx ctx, FILE *const __restrict__ repo, const char **inpbuf)
 {
+	if(repo == NULL) {
+		return 0; /* string mode: runaway rule detection not supported */
+	}
 	int r = 1;
 	fpos_t fpos;
 	char buf[6];
