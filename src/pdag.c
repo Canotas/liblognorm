@@ -30,6 +30,10 @@
 void ln_displayPDAGComponentAlternative(struct ln_pdag *dag, int level);
 void ln_displayPDAGComponent(struct ln_pdag *dag, int level);
 
+/* NOTE: These global counters are NOT protected by a mutex.
+ * ln_normalize() must not be called concurrently with the same
+ * ln_ctx instance. Use separate ln_ctx per thread, or serialize
+ * calls with an external mutex. See liblognorm.h for details. */
 #ifdef	ADVANCED_STATS
 uint64_t advstats_parsers_called = 0;
 uint64_t advstats_parsers_success = 0;
@@ -1248,10 +1252,14 @@ addRuleMetadata(npb_t *const __restrict__ npb,
 	if(ctx->opts & LN_CTXOPT_ADD_RULE) { /* matching rule mockup */
 		if(meta_rule == NULL)
 			meta_rule = json_object_new_object();
-		char *cstr = strrev(es_str2cstr(npb->rule, NULL));
-		json_object_object_add(meta_rule, RULE_MOCKUP_KEY,
-			json_object_new_string(cstr));
-		free(cstr);
+		char *cstr = es_str2cstr(npb->rule, NULL);
+		if(cstr != NULL) {
+			strrev(cstr);
+			struct json_object *jval = json_object_new_string(cstr);
+			free(cstr);
+			if(jval != NULL)
+				json_object_object_add(meta_rule, RULE_MOCKUP_KEY, jval);
+		}
 	}
 
 	if(ctx->opts & LN_CTXOPT_ADD_RULE_LOCATION) {

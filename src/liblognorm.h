@@ -254,6 +254,13 @@ int ln_loadSamplesFromString(ln_ctx ctx, const char *string);
  * this means the the correct messages size, \b excluding the NUL byte,
  * must be provided.
  *
+ * @note Thread safety: This function is \b NOT thread-safe when called
+ * concurrently with the same ln_ctx instance. The internal parse-DAG
+ * statistics counters (advstats_* in pdag.c) are updated without any
+ * mutex protection. Either use a separate ln_ctx per thread, or
+ * serialize all ln_normalize() calls on a shared ln_ctx with an
+ * external mutex.
+ *
  * @param[in] ctx The library context to use.
  * @param[in] str The message string (see note above).
  * @param[in] strLen The length of the message in bytes.
