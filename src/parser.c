@@ -1273,17 +1273,21 @@ PARSER_Parse(StringTo)
 	    i++;
 	    if(c[i] == toFind[0]) {
 		/* Found the first letter, now find the rest of the string */
-		j = 1;
-		m = i+1;
-		while(m < npb->strLen && j < data->len ) {
-			if(c[m] != toFind[j])
-				break;
-			if(j == data->len - 1) { /* full match? */
-				chkstr = 1;
-				break;
+		if(data->len == 1) {
+			chkstr = 1; /* single-char needle: first char match is a full match */
+		} else {
+			j = 1;
+			m = i+1;
+			while(m < npb->strLen && j < data->len ) {
+				if(c[m] != toFind[j])
+					break;
+				if(j == data->len - 1) { /* full match? */
+					chkstr = 1;
+					break;
+				}
+				j++;
+				m++;
 			}
-			j++;
-			m++;
 		}
 	    }
 	}
