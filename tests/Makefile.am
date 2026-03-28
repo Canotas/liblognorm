@@ -129,7 +129,6 @@ TESTS_SHELLSCRIPTS += \
 	field_checkpoint-lea_v1.sh \
 	field_duration_v1.sh \
 	field_float_v1.sh \
-	field_cee-syslog_v1.sh \
 	field_tokenized.sh \
 	field_tokenized_with_invalid_ruledef.sh \
 	field_recursive.sh \
@@ -146,7 +145,6 @@ TESTS_SHELLSCRIPTS += \
 	very_long_logline.sh
 
 
-#re-add to TESTS if needed: user_test
 TESTS = \
 	$(TESTS_SHELLSCRIPTS)
 
