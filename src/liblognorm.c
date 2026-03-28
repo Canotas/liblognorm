@@ -27,6 +27,7 @@
 #include "config.h"
 #include <string.h>
 #include <errno.h>
+#include <pthread.h>
 
 #include "liblognorm.h"
 #include "lognorm.h"
@@ -57,6 +58,22 @@ ln_hasAdvancedStats(void)
 #endif
 }
 
+/* Perform json-c global initialization exactly once across all threads.
+ * These functions set process-global state and are not thread-safe; calling
+ * them from multiple concurrent ln_initCtx() calls races.
+ */
+static void
+json_global_init_once_fn(void)
+{
+#ifdef HAVE_JSON_GLOBAL_SET_STRING_HASH
+	json_global_set_string_hash(JSON_C_STR_HASH_PERLLIKE);
+#endif
+#ifdef HAVE_JSON_GLOBAL_SET_PRINTBUF_INITIAL_SIZE
+	json_global_set_printbuf_initial_size(2048);
+#endif
+}
+static pthread_once_t json_global_once = PTHREAD_ONCE_INIT;
+
 ln_ctx
 ln_initCtx(void)
 {
@@ -64,12 +81,7 @@ ln_initCtx(void)
 	if((ctx = calloc(1, sizeof(struct ln_ctx_s))) == NULL)
 		goto done;
 
-#ifdef HAVE_JSON_GLOBAL_SET_STRING_HASH
-	json_global_set_string_hash(JSON_C_STR_HASH_PERLLIKE);
-#endif
-#ifdef HAVE_JSON_GLOBAL_SET_PRINTBUF_INITIAL_SIZE
-	json_global_set_printbuf_initial_size(2048);
-#endif
+	pthread_once(&json_global_once, json_global_init_once_fn);
 	ctx->objID = LN_ObjID_CTX;
 	ctx->dbgCB = NULL;
 	ctx->opts = 0;
