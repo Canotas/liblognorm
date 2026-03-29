@@ -224,7 +224,7 @@ ln_fmtEventToXML(struct json_object *json, es_str_t **str)
 	}
 
 	es_addBuf(str, "</event>", 8);
-
+	r = 0;
 done:
 	return r;
 }
