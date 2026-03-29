@@ -1050,7 +1050,7 @@ PARSER_Parse(HexNumber)
 		else
 			val += digit - '0';
 	}
-	if (i == *offs || !isspace(c[i]))
+	if (i == *offs || !isspace((unsigned char)c[i]))
 		goto done;
 	if(maxval > 0 && val > maxval) {
 		LN_DBGPRINTF(npb->ctx, "hexnumber parser: val too large (max %" PRIu64
@@ -1199,10 +1199,10 @@ PARSER_Parse(Whitespace)
 	assert(parsed != NULL);
 	c = npb->str;
 
-	if(!isspace(c[i]))
+	if(!isspace((unsigned char)c[i]))
 		goto done;
 
-	for (i++ ; i < npb->strLen && isspace(c[i]); i++);
+	for (i++ ; i < npb->strLen && isspace((unsigned char)c[i]); i++);
 	/* success, persist */
 	*parsed = i - *offs;
 	if(value != NULL) {
@@ -2568,7 +2568,7 @@ done:
 static inline int
 isValidNameChar(const char c)
 {
-	return (isalnum(c)
+	return (isalnum((unsigned char)c)
 		|| c == '.'
 		|| c == '_'
 		|| c == '-'

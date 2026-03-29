@@ -632,7 +632,7 @@ PARSER(HexNumber)
 		goto done;
 
 	for (i += 2 ; i < strLen && isxdigit(c[i]); i++);
-	if (i == *offs || !isspace(c[i]))
+	if (i == *offs || !isspace((unsigned char)c[i]))
 		goto done;
 	
 	/* success, persist */
@@ -719,10 +719,10 @@ PARSER(Whitespace)
 	assert(parsed != NULL);
 	c = str;
 
-	if(!isspace(c[i]))
+	if(!isspace((unsigned char)c[i]))
 		goto done;
 
-	for (i++ ; i < strLen && isspace(c[i]); i++);
+	for (i++ ; i < strLen && isspace((unsigned char)c[i]); i++);
 	/* success, persist */
 	*parsed = i - *offs;
 	r = 0; /* success */
