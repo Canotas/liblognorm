@@ -230,28 +230,9 @@ void ln_displayPDAG(ln_ctx ctx);
 void ln_genDotPDAGGraph(struct ln_pdag *DAG, es_str_t **str);
 
 
-/**
- * Build a pdag based on the provided string, but only if necessary.
- * The passed-in DAG is searched and traversed for str. If a node exactly
- * matching str is found, that node is returned. If no exact match is found,
- * a new node is added. Existing nodes may be split, if a so-far common
- * prefix needs to be split in order to add the new node.
- *
- * @param[in] DAG root of the current DAG
- * @param[in] str string to be added
- * @param[in] offs offset into str where match needs to start
- *             (this is required for recursive calls to handle
- *             common prefixes)
- * @return NULL on error, otherwise the pdag leaf that
- *         corresponds to the parameters passed.
- */
-struct ln_pdag * ln_buildPDAG(struct ln_pdag *DAG, es_str_t *str, size_t offs);
-
-
 prsid_t ln_parserName2ID(const char *const __restrict__ name);
 int ln_pdagOptimize(ln_ctx ctx);
 void ln_fullPdagStats(ln_ctx ctx, FILE *const fp, const int);
-ln_parser_t * ln_newLiteralParser(ln_ctx ctx, char lit);
 ln_parser_t* ln_newParser(ln_ctx ctx, json_object *const prscnf);
 struct ln_type_pdag * ln_pdagFindType(ln_ctx ctx, const char *const __restrict__ name, const int bAdd);
 void ln_fullPDagStatsDOT(ln_ctx ctx, FILE *const fp);
