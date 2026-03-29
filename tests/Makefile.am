@@ -29,6 +29,7 @@ TESTS_SHELLSCRIPTS = \
 	usrdef_two.sh \
 	usrdef_twotypes.sh \
 	usrdef_actual1.sh \
+	usrdef_mismatch.sh \
 	usrdef_ipaddr.sh \
 	usrdef_ipaddr_dotdot.sh \
 	usrdef_ipaddr_dotdot2.sh \
