@@ -376,6 +376,7 @@ addSampToTree(ln_ctx ctx,
 	dag->flags.isTerminal = 1;
 	dag->tags = tagBucket;
 	dag->rb_file = strdup(ctx->conf_file);
+	if(dag->rb_file == NULL) { r = LN_NOMEM; goto done; }
 	dag->rb_lineno = ctx->conf_ln_nbr;
 
 done:
