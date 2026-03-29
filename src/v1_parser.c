@@ -83,7 +83,9 @@ xml2jsonc_convert_elements(xmlNode *anode, json_object *jobj)
             {
                 /* JSON string object */
                 cur_jobj = json_object_new_object();
-                cur_jstr = json_object_new_string((const char *)xmlNodeGetContent(cur_node));
+                xmlChar *node_content = xmlNodeGetContent(cur_node);
+                cur_jstr = json_object_new_string((const char *)node_content);
+                xmlFree(node_content);
                 json_object_object_add(jobj, (const char *)cur_node->name, cur_jstr);
             }
             else
