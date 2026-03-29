@@ -1248,10 +1248,14 @@ addRuleMetadata(npb_t *const __restrict__ npb,
 	if(ctx->opts & LN_CTXOPT_ADD_RULE) { /* matching rule mockup */
 		if(meta_rule == NULL)
 			meta_rule = json_object_new_object();
-		char *cstr = strrev(es_str2cstr(npb->rule, NULL));
-		json_object_object_add(meta_rule, RULE_MOCKUP_KEY,
-			json_object_new_string(cstr));
-		free(cstr);
+		char *cstr = es_str2cstr(npb->rule, NULL);
+		if(cstr != NULL) {
+			strrev(cstr);
+			struct json_object *jval = json_object_new_string(cstr);
+			free(cstr);
+			if(jval != NULL)
+				json_object_object_add(meta_rule, RULE_MOCKUP_KEY, jval);
+		}
 	}
 
 	if(ctx->opts & LN_CTXOPT_ADD_RULE_LOCATION) {
@@ -1685,10 +1689,6 @@ ln_normalize(ln_ctx ctx, const char *str, const size_t strLen, struct json_objec
 		addUnparsedField(str, strLen, npb.parsedTo, *json_p);
 	}
 
-	if(ctx->opts & LN_CTXOPT_ADD_RULE) {
-		es_deleteStr(npb.rule);
-	}
-
 #ifdef	ADVANCED_STATS
 	if(r != 0)
 		es_addBuf(&npb.astats.exec_path, "[FAILED]", 8);
@@ -1719,5 +1719,8 @@ ln_normalize(ln_ctx ctx, const char *str, const size_t strLen, struct json_objec
 
 	es_deleteStr(npb.astats.exec_path);
 #endif
-done:	return r;
+done:
+	if(ctx->opts & LN_CTXOPT_ADD_RULE)
+		es_deleteStr(npb.rule);
+	return r;
 }
