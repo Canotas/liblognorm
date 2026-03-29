@@ -63,11 +63,7 @@ ln_v1_inherittedCtx(ln_ctx parent)
 int
 ln_v1_loadSample(ln_ctx ctx, const char *buf)
 {
-	// Something bad happened - no new sample
-	if (ln_v1_processSamp(ctx, buf, strlen(buf)) == NULL) {
-		return 1;
-	}
-	return 0;
+	return ln_v1_processSamp(ctx, buf, strlen(buf));
 }
 
 
@@ -76,24 +72,20 @@ ln_v1_loadSamples(ln_ctx ctx, const char *file)
 {
 	int r = 0;
 	FILE *repo;
-	struct ln_v1_samp *samp;
 	int isEof = 0;
 
 	char *fn_to_free = NULL;
 	CHECK_CTX;
 
+	if(file == NULL) ERR_ABORT;
 	ctx->conf_file = fn_to_free = strdup(file);
 	ctx->conf_ln_nbr = 0;
-
-	if(file == NULL) ERR_ABORT;
 	if((repo = fopen(file, "r")) == NULL) {
 		ln_errprintf(ctx, errno, "cannot open file %s", file);
 		ERR_ABORT;
 	}
 	while(!isEof) {
-		if((samp = ln_v1_sampRead(ctx, repo, &isEof)) == NULL) {
-			/* TODO: what exactly to do? */
-		}
+		ln_v1_sampRead(ctx, repo, &isEof);
 	}
 	fclose(repo);
 
