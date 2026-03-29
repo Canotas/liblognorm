@@ -52,6 +52,7 @@ TESTS_SHELLSCRIPTS = \
 	alternative_segfault.sh \
 	repeat_very_simple.sh \
 	repeat_simple.sh \
+	repeat_name_dot.sh \
 	repeat_mismatch_in_while.sh \
 	repeat_while_alternative.sh \
 	repeat_alternative_nested.sh \
@@ -81,6 +82,8 @@ TESTS_SHELLSCRIPTS = \
 	field_mac48_jsoncnf.sh \
 	field_name_value.sh \
 	field_name_value_jsoncnf.sh \
+	field_name_value_quoted.sh \
+	field_name_value_whitespace.sh \
 	field_kernel_timestamp.sh \
 	field_kernel_timestamp_jsoncnf.sh \
 	field_whitespace.sh \
