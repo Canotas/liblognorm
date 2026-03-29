@@ -73,6 +73,7 @@ ln_initCtx(void)
 	ctx->objID = LN_ObjID_CTX;
 	ctx->dbgCB = NULL;
 	ctx->opts = 0;
+	pthread_mutex_init(&ctx->type_pdags_mutex, NULL);
 
 	/* we add an root for the empty word, this simplifies parse
 	 * dag handling.

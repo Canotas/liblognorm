@@ -35,26 +35,14 @@
 
 
 /**
- * A single log sample.
- */
-struct ln_v1_samp {
-	es_str_t *msg;
-};
-
-/**
- * Reads a sample stored in buffer buf and creates a new ln_v1_samp object
- * out of it.
- *
- * @note
- * It is the caller's responsibility to delete the newly
- * created ln_v1_samp object if it is no longer needed.
+ * Reads a sample stored in buffer buf and processes it into the parse tree.
  *
  * @param[ctx] ctx current library context
  * @param[buf] cstr buffer containing the string contents of the sample
  * @param[lenBuf] length of the sample contained within buf
- * @return Newly create object or NULL if an error occured.
+ * @return 0 on success, non-zero on error.
  */
-struct ln_v1_samp *
+int
 ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf);
 
 
@@ -62,26 +50,15 @@ ln_v1_processSamp(ln_ctx ctx, const char *buf, es_size_t lenBuf);
  * Read a sample from repository (sequentially).
  *
  * Reads a sample starting with the current file position and
- * creates a new ln_v1_samp object out of it.
- *
- * @note
- * It is the caller's responsibility to delete the newly
- * created ln_v1_samp object if it is no longer needed.
+ * processes it into the parse tree.
  *
  * @param[in] ctx current library context
  * @param[in] repo repository descriptor
  * @param[out] isEof must be set to 0 on entry and is switched to 1 if EOF occured.
- * @return Newly create object or NULL if an error or EOF occured.
+ * @return 0 on success, non-zero on error or EOF.
  */
-struct ln_v1_samp *
+int
 ln_v1_sampRead(ln_ctx ctx, FILE *repo, int *isEof);
-
-
-/**
- * Free ln_v1_samp object.
- */
-void
-ln_v1_sampFree(ln_ctx ctx, struct ln_v1_samp *samp);
 
 
 /**
