@@ -613,7 +613,7 @@ ln_pdagStats(ln_ctx ctx, struct ln_pdag *const dag, FILE *const fp, const int ex
 {
 	struct pdag_stats *const stats = calloc(1, sizeof(struct pdag_stats));
 	stats->prs_cnt = calloc(NPARSERS, sizeof(int));
-	//ln_pdagClearVisited(ctx);
+	ln_pdagClearVisited(ctx);
 	const int longest_path = ln_pdagStatsRec(ctx, dag, stats);
 
 	fprintf(fp, "nodes.............: %4d\n", stats->nodes);
