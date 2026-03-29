@@ -85,6 +85,12 @@ PARSERDEF_NO_DATA(XML);
 /* utility functions */
 int ln_combineData_Literal(void *const org, void *const add);
 
+/* Accessor for literal parser data - avoids direct struct layout dependency */
+static inline const char *ln_parserGetLiteralStr(const ln_parser_t *prs) {
+	struct { const char *lit; } *data = (void*)prs->parser_data;
+	return data->lit;
+}
+
 /* definitions for friends */
 struct data_Repeat {
 	ln_pdag *parser;
