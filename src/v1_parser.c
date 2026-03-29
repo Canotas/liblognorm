@@ -1338,11 +1338,11 @@ PARSER(Regex)
 						FAIL(LN_NOMEM);
 					}
 				}
+				r = 0; /* success: regex matched at the expected position */
 			}
 		}
 		free(ovector);
 	}
-	r = 0; /* success */
 done:
 	return r;
 }
