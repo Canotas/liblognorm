@@ -409,6 +409,7 @@ getLineType(const char *buf, es_size_t lenBuf, size_t *offs, es_str_t **str)
 	if(i < lenBuf)
 		++i; /* skip over '=' */
 	*offs = i;
+	r = 0;
 
 done:	return r;
 }
