@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: lognorm
 Description: fast samples-based log normalization library
 Version: @VERSION@
-Requires: libfastjson
+Requires: libfastjson libestr
 Libs: -L${libdir} -llognorm
-Libs.private: @pkg_config_libs_private@
+Libs.private: @LIBXML2_LIBS@ @JSON_C_LIBS@ @PCRE_LIBS@
 Cflags: -I${includedir}
