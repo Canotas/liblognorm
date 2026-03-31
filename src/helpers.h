@@ -1,5 +1,5 @@
 /**
- * @file pdag.c
+ * @file helpers.h
  * @brief Implementation of the parse dag object.
  * @class ln_pdag pdag.h
  *//*
@@ -10,9 +10,18 @@
 #ifndef LIBLOGNORM_HELPERS_H
 #define LIBLOGNORM_HELPERS_H
 
+#include <ctype.h>
+
 static inline int myisdigit(char c)
 {
 	return (c >= '0' && c <= '9');
+}
+
+static inline int myisspace(const char c) {
+	return isspace((unsigned char)c);
+}
+static inline int myisalnum(const char c) {
+	return isalnum((unsigned char)c);
 }
 
 #endif

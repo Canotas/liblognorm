@@ -38,6 +38,10 @@ struct ln_type_pdag;
 #define PRS_LITERAL			0
 #define PRS_REPEAT			1
 #if 0
+/* NOTE: These PRS_* constants are disabled because their numeric values
+ * do not match the ordering in parser_lookup_table. Keeping them here
+ * for reference only; do not re-enable without reconciling the table order.
+ */
 #define PRS_DATE_RFC3164		1
 #define PRS_DATE_RFC5424		2
 #define PRS_NUMBER			3
