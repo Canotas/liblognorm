@@ -749,8 +749,8 @@ getAnnotationOp(ln_ctx ctx, ln_annot *annot, const char *buf, es_size_t lenBuf, 
 		r = 0;
 		goto done;
 	case '-':
-		ln_dbgprintf(ctx, "annotate op '-' not yet implemented - failing");
-		/*FALLTHROUGH*/
+		opc = ln_annot_RM;
+		break;
 	default:ln_errprintf(ctx, 0, "invalid annotate operation '%c': %s", buf[i], buf+i);
 		goto fail;
 	}
@@ -759,6 +759,15 @@ getAnnotationOp(ln_ctx ctx, ln_annot *annot, const char *buf, es_size_t lenBuf, 
 	if(i == lenBuf) goto fail; /* nothing left to process */
 
 	CHKR(getFieldName(ctx, buf, lenBuf, &i, &fieldName));
+
+	if(opc == ln_annot_RM) {
+		/* RM operations only have a field name, no =value part */
+		*offs = i;
+		CHKR(ln_addAnnotOp(annot, opc, fieldName, NULL));
+		r = 0;
+		goto done;
+	}
+
 	if(i == lenBuf) goto fail; /* nothing left to process */
 	if(buf[i] != '=') goto fail; /* format error */
 	i++;

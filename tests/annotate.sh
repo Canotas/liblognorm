@@ -21,4 +21,14 @@ assert_output_json_eq '{ "tag": "TAG", "annot2": "ABC" }'
 execute '<6>1 2016-09-02T07:41:07+02:00 server.example.net TAG - - -'
 assert_output_json_eq '{ "tag": "TAG", "annot1": "WIN", "annot2": "ABC" }'
 
+# Test RM operation: annotate with '-' removes a previously added field
+reset_rules
+add_rule 'version=2'
+add_rule 'rule=RMTEST:<%-:number%>1 %-:date-rfc5424% %-:word% %tag:word% - - -'
+add_rule 'annotate=RMTEST:+annot1="to-be-removed" +annot2="keep-me"'
+add_rule 'annotate=RMTEST:-annot1'
+
+execute '<6>1 2016-09-02T07:41:07+02:00 server.example.net TAG - - -'
+assert_output_json_eq '{ "tag": "TAG", "annot2": "keep-me" }'
+
 cleanup_tmp_files

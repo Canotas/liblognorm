@@ -202,8 +202,9 @@ ln_annotateEventWithTag(ln_ctx ctx, struct json_object *json, es_str_t *tag)
 			CHKN(field = json_object_new_string(cstr));
 			CHKN(cstr = ln_es_str2cstr(&op->name));
 			json_object_object_add(json, cstr, field);
-		} else {
-			// TODO: implement
+		} else if(op->opc == ln_annot_RM) {
+			CHKN(cstr = ln_es_str2cstr(&op->name));
+			json_object_object_del(json, cstr);
 		}
 	}
 
