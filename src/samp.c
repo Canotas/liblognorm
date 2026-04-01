@@ -572,7 +572,10 @@ processRule(ln_ctx ctx, const char *buf, es_size_t lenBuf, es_size_t offs)
 	addSampToTree(ctx, str, ctx->pdag, tagBucket);
 	es_deleteStr(str);
 	r = 0;
-done:	return r;
+done:
+	if(r != 0 && tagBucket != NULL)
+		json_object_put(tagBucket);
+	return r;
 }
 
 
