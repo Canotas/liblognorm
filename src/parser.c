@@ -2466,6 +2466,10 @@ PARSER_Parse(XML)
         char * pch;
         pch=strrchr((const char *) npb->str + *offs, '>');
 
+        /* No closing '>' found: not valid XML */
+        if(pch == NULL)
+            goto done;
+
         /* Truncate the string after the last occurence of '>' */
         int newLen = pch - (npb->str + *offs) + 1;
         char *cstr = strndup(npb->str + *offs, newLen);
