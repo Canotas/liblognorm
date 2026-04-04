@@ -138,6 +138,7 @@ struct ln_type_pdag *
 ln_pdagFindType(ln_ctx ctx, const char *const __restrict__ name, const int bAdd)
 {
 	struct ln_type_pdag *td = NULL;
+	int r = 0;
 	int i;
 
 	LN_DBGPRINTF(ctx, "ln_pdagFindType, name '%s', bAdd: %d, nTypes %d",
@@ -165,9 +166,22 @@ ln_pdagFindType(ln_ctx ctx, const char *const __restrict__ name, const int bAdd)
 	ctx->type_pdags = newarr;
 	td = ctx->type_pdags + ctx->nTypes;
 	++ctx->nTypes;
-	td->name = strdup(name);
-	td->pdag = ln_newPDAG(ctx);
+	if((td->name = strdup(name)) == NULL) {
+		--ctx->nTypes;
+		td = NULL;
+		r = LN_NOMEM;
+		goto done;
+	}
+	if((td->pdag = ln_newPDAG(ctx)) == NULL) {
+		free(td->name);
+		td->name = NULL;
+		--ctx->nTypes;
+		td = NULL;
+		r = LN_NOMEM;
+		goto done;
+	}
 done:
+	(void)r;
 	return td;
 }
 
